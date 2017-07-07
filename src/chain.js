@@ -25,10 +25,10 @@ class Chain {
     return this.blocks[this.blocks.length - 1];
   }
 
-  addData(data) {
-    const newBlock = this.generateNextBlock(data);
-
-    this.blocks.push(newBlock);
+  addBlock(block) {
+    if (this.isValidBlock(this.getLatestBlock(), block)) {
+      this.blocks.push(block);
+    }
   }
 
   generateGenesisBlock() {
@@ -50,13 +50,26 @@ class Chain {
     return new Block(index, prevBlock.hash, hash, timestamp, data);
   }
 
-  validateBlock(block, prevBlock) {
+  isValidBlock(prevBlock, block) {
     const indexOk = (block.index === prevBlock.index + 1);
     const prevHashOk = (block.prevHash === prevBlock.hash);
     const hashOk = (this.calculateHash(block.index, block.prevHash, block.timestamp, block.data)
       === block.hash);
 
     return indexOk && prevHashOk && hashOk;
+  }
+
+  isValidChain() {
+    const checkBlock = (prevBlock, index) => {
+      const block = this.blocks[index + 1];
+
+      return block && this.isValidBlock(prevBlock, block);
+    };
+
+    return this.blocks
+      .map(checkBlock)
+      .filter(v => v !== undefined)
+      .every(v => v);
   }
 }
 

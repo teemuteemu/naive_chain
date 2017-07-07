@@ -3,8 +3,8 @@ class Block {
     this.index = index;
     this.timestamp = timestamp;
     this.data = data;
-    this.prevHash = prevHash;
     this.hash = hash;
+    this.prevHash = prevHash;
   }
 }
 
