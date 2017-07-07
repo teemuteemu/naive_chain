@@ -25,8 +25,10 @@ class Chain {
     return this.blocks[this.blocks.length - 1];
   }
 
-  addBlock(data) {
-    this.blocks.push(this.generateNextBlock(data));
+  addData(data) {
+    const newBlock = this.generateNextBlock(data);
+
+    this.blocks.push(newBlock);
   }
 
   generateGenesisBlock() {
@@ -46,6 +48,15 @@ class Chain {
     const hash = this.calculateHash(index, prevBlock.hash, timestamp, data);
 
     return new Block(index, prevBlock.hash, hash, timestamp, data);
+  }
+
+  validateBlock(block, prevBlock) {
+    const indexOk = (block.index === prevBlock.index + 1);
+    const prevHashOk = (block.prevHash === prevBlock.hash);
+    const hashOk = (this.calculateHash(block.index, block.prevHash, block.timestamp, block.data)
+      === block.hash);
+
+    return indexOk && prevHashOk && hashOk;
   }
 }
 
