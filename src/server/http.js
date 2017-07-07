@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('../config');
 
-function initHTTPServer(blockchain) {
+function initHTTPServer(blockchain, wsServer) {
   const server = express();
   server.use(bodyParser.json());
 
@@ -15,6 +17,25 @@ function initHTTPServer(blockchain) {
     const block = blockchain.generateNextBlock(data);
 
     blockchain.addBlock(block);
+    res.send();
+  });
+
+  server.get('/peers', (req, res) => {
+    const peers = wsServer.peers.map(s => `${s._socket.remoteAddress}:${s._socket.remotePort}`);
+    const response = {
+      peers,
+    };
+
+    res.send(response);
+  });
+
+  server.post('/addPeer', (req, res) => {
+    const peers = req.body.peers;
+
+    if (peers) {
+      wsServer.connect(peers);
+    }
+
     res.send();
   });
 

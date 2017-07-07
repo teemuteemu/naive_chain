@@ -1,13 +1,13 @@
 const BlockChain = require('./blockchain');
 const initHTTPServer = require('./server/http');
-const initWSServer = require('./server/websocket');
+const wsServer = require('./server/websocket');
 
 const blockchain = new BlockChain();
 
-initWSServer()
+wsServer.init()
   .then(console.log)
   .catch(console.error);
 
-initHTTPServer(blockchain)
+initHTTPServer(blockchain, wsServer)
   .then(console.log)
   .catch(console.error);

@@ -28,7 +28,7 @@ function initConnection(ws) {
   ws.on('message', onMessage);
 }
 
-function initWSServer() {
+function init() {
   const wsOptions = {
     port: config.WS_PORT,
   };
@@ -42,4 +42,15 @@ function initWSServer() {
   });
 }
 
-module.exports = initWSServer;
+function connect(peersToConnect) {
+  peersToConnect.forEach((peer) => {
+    const ws = new WebSocket(peer);
+    ws.on('open', () => initConnection(ws));
+  });
+}
+
+module.exports = {
+  init,
+  connect,
+  peers,
+};
