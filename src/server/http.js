@@ -1,12 +1,27 @@
 /* eslint-disable no-underscore-dangle */
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const config = require('../config');
+import express from 'express';
+import bodyParser from 'body-parser';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+
+import config from '../config';
+
+import template from '../client/template';
+import App from '../client/components/App';
 
 function initHTTPServer(blockchain, wsServer) {
   const server = express();
   server.use(bodyParser.json());
+
+  server.get('/', (req, res) => {
+    const app = renderToString(<App />);
+
+    res.send(template({
+      title: 'home',
+      body: app,
+    }));
+  });
 
   server.get('/blocks', (req, res) => {
     res.send(JSON.stringify(blockchain));
@@ -46,4 +61,4 @@ function initHTTPServer(blockchain, wsServer) {
   });
 }
 
-module.exports = initHTTPServer;
+export default initHTTPServer;

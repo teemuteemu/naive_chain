@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
 
-const SHA256 = require('crypto-js/sha256');
+import SHA256 from 'crypto-js/sha256';
 
-const Block = require('./block');
+import Block from './block';
 
 class Chain {
   constructor() {
@@ -73,4 +73,4 @@ class Chain {
   }
 }
 
-module.exports = Chain;
+export default Chain;

@@ -1,6 +1,5 @@
-const WebSocket = require('ws');
-
-const config = require('../config');
+import WebSocket from 'ws';
+import config from '../config';
 
 const peers = [];
 
@@ -49,8 +48,10 @@ function connect(peersToConnect) {
   });
 }
 
-module.exports = {
+const wsServer = {
   init,
   connect,
   peers,
 };
+
+export default wsServer;

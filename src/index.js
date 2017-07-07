@@ -1,6 +1,6 @@
-const BlockChain = require('./blockchain');
-const initHTTPServer = require('./server/http');
-const wsServer = require('./server/websocket');
+import BlockChain from './blockchain';
+import initHTTPServer from './server/http';
+import wsServer from './server/websocket';
 
 const blockchain = new BlockChain();
 
