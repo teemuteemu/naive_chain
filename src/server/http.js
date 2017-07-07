@@ -3,14 +3,14 @@ const bodyParser = require('body-parser');
 const config = require('../config');
 
 function initHTTPServer(blockchain) {
-  const app = express();
-  app.use(bodyParser.json());
+  const server = express();
+  server.use(bodyParser.json());
 
-  app.get('/blocks', (req, res) => {
+  server.get('/blocks', (req, res) => {
     res.send(JSON.stringify(blockchain));
   });
 
-  app.post('/addBlock', (req, res) => {
+  server.post('/addBlock', (req, res) => {
     const data = req.body.data;
     const block = blockchain.generateNextBlock(data);
 
@@ -19,9 +19,9 @@ function initHTTPServer(blockchain) {
   });
 
   return new Promise((resolve, reject) => {
-    app
+    server
       .on('error', reject)
-      .listen(config.HTTP_PORT, () => resolve(`Listening :${config.HTTP_PORT}...`));
+      .listen(config.HTTP_PORT, () => resolve(`HTTP server listening at :${config.HTTP_PORT}...`));
   });
 }
 

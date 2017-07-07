@@ -34,9 +34,9 @@ class Chain {
   generateGenesisBlock() {
     const index = 0;
     const prevHash = null;
-    const timestamp = this.getTimestamp();
+    const timestamp = 1499432596911;
     const data = 'genesis';
-    const hash = this.calculateHash(index, prevHash, timestamp, data);
+    const hash = '34a5197bd5b7ba892eabda39eba75d395ead68b2534d9105940aedf5b3a7ac90';
 
     return new Block(index, prevHash, hash, timestamp, data);
   }
