@@ -1,21 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const BlockChain = require('./blockchain');
+const initHTTPServer = require('./server/http');
 
-const Chain = require('./blockchain/chain');
-const config = require('./config');
+const blockchain = new BlockChain();
 
-const blockchain = new Chain();
-
-const app = express();
-app.use(bodyParser.json());
-
-app.get('/blocks', (req, res) => res.send(JSON.stringify(blockchain)));
-app.post('/add', (req, res) => {
-  const data = req.body.data;
-  const block = blockchain.generateNextBlock(data);
-
-  blockchain.addBlock(block);
-  res.send();
-});
-
-app.listen(config.HTTP_PORT, () => console.log(`Listening :${config.HTTP_PORT}...`));
+initHTTPServer(blockchain)
+  .then(msg => console.log(msg))
+  .catch(e => console.error(e));
